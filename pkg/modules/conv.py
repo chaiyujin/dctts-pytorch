@@ -4,11 +4,15 @@ import torch.nn as nn
 
 class MaskedConv1d(nn.Conv1d):
     def __init__(self, in_channels, out_channels, kernel_size,
-                 dilation=1, groups=1, bias=True, causal=False):
-        if causal:
+                 dilation=1, padding="same", groups=1, bias=True):
+        if padding == "causal":
             padding = (kernel_size - 1) * dilation
+        elif padding == "same":
+            padding = ((kernel_size - 1) * dilation + 1) // 2
+        elif padding == "valid":
+            padding = 0
         else:
-            padding = (kernel_size - 1) * dilation // 2
+            raise ValueError("[MaskedConv1d]: padding shoule be 'valid', 'same' or 'causal'")
         super(MaskedConv1d, self).__init__(in_channels, out_channels, kernel_size,
                                            stride=1, padding=padding, dilation=dilation,
                                            groups=groups, bias=bias)
@@ -19,10 +23,10 @@ class MaskedConv1d(nn.Conv1d):
 
 
 class HighwayConv1d(MaskedConv1d):
-    def __init__(self, in_channels, out_channels, kernel_size,
-                 dilation=1, groups=1, bias=True, causal=False):
-        super(HighwayConv1d, self).__init__(in_channels, 2 * out_channels, kernel_size,
-                                            dilation, groups, bias, causal)
+    def __init__(self, in_channels, kernel_size,
+                 dilation=1, padding="same", groups=1, bias=True):
+        super(HighwayConv1d, self).__init__(in_channels, 2 * in_channels, kernel_size,
+                                            dilation, padding, groups, bias)
         self.sigmoid_ = nn.Sigmoid()
 
     def forward(self, inputs):
