@@ -1,5 +1,6 @@
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 import numpy as np
 from pkg.modules import MaskedConv1d, HighwayConv1d, CharEmbed
 from pkg.modules import SequentialMaker
@@ -39,7 +40,9 @@ class TextEncoder(nn.Module):
         self.seq_ = seq()
 
     def forward(self, inputs):
-        return self.seq_(inputs)
+        outputs = self.seq_(inputs)
+        k, v = torch.chunk(outputs, 2, 1)
+        return k, v
 
     def print_shape(self, input_shape):
         print("text-encode {")
@@ -129,7 +132,6 @@ class AudioDecoder(nn.Module):
             seq.add_module("drop_{}".format(i), nn.Dropout(Hyper.dropout))
             i += 1
         seq.add_module("conv_{}".format(i), MaskedConv1d(Hyper.dim_d, Hyper.dim_f, 1, 1, padding="causal"))
-        seq.add_module("sigmoid_{}".format(i), nn.Sigmoid())
         self.seq_ = seq()
 
     def forward(self, inputs):
@@ -142,3 +144,24 @@ class AudioDecoder(nn.Module):
             torch.FloatTensor(np.zeros(input_shape)),
             intent_size=2)
         print("}")
+
+
+class Text2Mel(nn.Module):
+    def __init__(self):
+        super(Text2Mel, self).__init__()
+        self.texts_enc_ = TextEncoder()
+        self.audio_enc_ = AudioEncoder()
+        self.audio_dec_ = AudioDecoder()
+        self.sigmoid_ = nn.Sigmoid()
+
+    def forward(self, texts, shift_mels):
+        k, v = self.texts_enc_(texts)
+        q = self.audio_enc_(shift_mels)
+        a = F.softmax(torch.bmm(k.transpose(1, 2), q) / np.sqrt(Hyper.dim_d), 1)
+        r = torch.cat((torch.bmm(v, a), q), 1)
+        mel_logits = self.audio_dec_(r)
+
+        self.query = q
+        self.attention = a
+        self.mels = self.sigmoid_(mel_logits)
+        return mel_logits, self.mels

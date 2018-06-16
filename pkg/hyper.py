@@ -26,5 +26,11 @@ class Hyper:
     # dropout
     dropout = 0.05
     # train
+    batch_size = 16
+    num_batches = 1000000
     device = "cuda:0"
     logdir = "/home/chaiyujin/Documents/Speech/dctts-pytorch/logdir"
+    # adam
+    adam_alpha = 2e-4
+    adam_betas = (0.5, 0.9)
+    adam_eps = 1e-6

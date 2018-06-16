@@ -112,6 +112,26 @@ def plot_spectrum(spectrum, name, gs, colorbar=False, dir=Hyper.logdir):
     plt.close(fig)
 
 
+def plot_attention(attention, name, gs, colorbar=False, dir=Hyper.logdir):
+    """Plots the alignment.
+
+    Args:
+      alignment: A numpy array with shape of (encoder_steps, decoder_steps)
+      gs: (int) global step.
+      dir: Output path.
+    """
+    if not os.path.exists(dir):
+        os.mkdir(dir)
+
+    fig, ax = plt.subplots()
+    im = ax.imshow(attention)
+    if colorbar:
+        fig.colorbar(im)
+    plt.title('{} Steps'.format(gs))
+    plt.savefig('{}/{}_{}.png'.format(dir, name, gs), format='png')
+    plt.close(fig)
+
+
 def find_files(path, target_ext=None):
     if target_ext is not None:
         if not isinstance(target_ext, list):

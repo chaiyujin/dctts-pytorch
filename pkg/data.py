@@ -77,6 +77,9 @@ class BatchMaker(object):
         self.indexes_ = None
         self.reshuffle_ = True
 
+    def num_batches(self):
+        return (self.total_ + self.bs_ - 1) // self.bs_
+
     def next_batch(self):
         # check if need re-shuffle
         if self.indexes_ is None or self.reshuffle_ == True:

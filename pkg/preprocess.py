@@ -31,7 +31,8 @@ def process_file(path):
     np.save(os.path.join(mag_path, fname + ".npy"), mag.astype(np.float32))
 
 
-def run():
+def preprocess():
+    print("pre-processing...")
     flist = find_files(Hyper.data_dir, "wav")
     bar = PrettyBar(len(flist))
     for i in bar:
@@ -42,4 +43,4 @@ def run():
 
 
 if __name__ == "__main__":
-    run()
+    preprocess()
