@@ -27,8 +27,8 @@ def process_file(path):
         os.makedirs(mel_path)
     if not os.path.exists(mag_path):
         os.makedirs(mag_path)
-    np.save(os.path.join(mel_path, fname + ".npy"), mel)
-    np.save(os.path.join(mag_path, fname + ".npy"), mag)
+    np.save(os.path.join(mel_path, fname + ".npy"), mel.astype(np.float32))
+    np.save(os.path.join(mag_path, fname + ".npy"), mag.astype(np.float32))
 
 
 def run():
@@ -43,5 +43,3 @@ def run():
 
 if __name__ == "__main__":
     run()
-
-

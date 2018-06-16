@@ -14,9 +14,10 @@ class Hyper:
     temporal_rate = 4
 
     # data
-    vocab = "P abcdefghijklmnopqrstuvwxyz'.?"  # P: padding
+    vocab = "PE abcdefghijklmnopqrstuvwxyz'.?"  # P: padding, E: end of string
     data_dir = "/media/chaiyujin/FE6C78966C784B81/Linux/Dataset/LJSpeech-1.1"
     feat_dir = "/home/chaiyujin/Documents/Speech/dctts-pytorch/features/"
+    data_max_text_length = 200
 
     # net
     dim_f = 80  # the dim of audio feature
