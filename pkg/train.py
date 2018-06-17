@@ -4,7 +4,7 @@ import os
 import torch
 import torch.nn as nn
 import numpy as np
-from pkg.networks import Text2Mel
+from pkg.networks import Text2Mel, SuperRes
 from pkg.data import BatchMaker, load_data
 from pkg.hyper import Hyper
 from pkg.utils import PrettyBar, plot_spectrum, plot_attention
@@ -32,7 +32,7 @@ def train(module):
     if module == "Text2Mel":
         train_text2mel()
     else:
-        raise NotImplementedError("[train]: cannot train super res module so far.")
+        train_superres()
 
 
 def save(graph, criterion_dict, optimizer, global_step, save_path):
@@ -151,4 +151,82 @@ def train_text2mel():
                          os.path.join(logdir, "pkg/save_{}k.pkg").format(global_step // 1000))
 
             # increase global step
+            global_step += 1
+
+
+def train_superres():
+    device = "cpu"
+    graph = SuperRes().to(device)
+    graph.train()
+
+    names, lengths, texts = load_data()
+    batch_maker = BatchMaker(Hyper.batch_size, names, lengths, texts)
+
+    criterion_mags = nn.L1Loss().to(device)
+    criterion_bd2 = nn.BCEWithLogitsLoss().to(device)
+
+    optimizer = torch.optim.Adam(
+        graph.parameters(),
+        lr=Hyper.adam_alpha,
+        betas=Hyper.adam_betas,
+        eps=Hyper.adam_eps
+    )
+
+
+    logdir = os.path.join(Hyper.logdir, "superres")
+    if not os.path.exists(logdir):
+        os.makedirs(logdir)
+    if not os.path.exists(os.path.join(logdir, "pkg")):
+        os.mkdir(os.path.join(logdir, "pkg"))
+    global_step = 0
+
+    for loop_cnt in range(int(Hyper.num_batches / batch_maker.num_batches() + 0.5)):
+        print("loop", loop_cnt)
+        bar = PrettyBar(batch_maker.num_batches())
+        bar.set_description("training...")
+        loss_str0 = MovingAverage()
+        loss_str1 = MovingAverage()
+
+        for bi in bar:
+            batch = batch_maker.next_batch()
+            # low res
+            mels = torch.FloatTensor(batch["mels"]).to(device)
+            # high res
+            mags = torch.FloatTensor(batch["mags"]).to(device)
+
+            # forward
+            mag_logits, mag_pred = graph(mels)
+
+            # loss
+            loss_mags = criterion_mags(mag_pred, mags)
+            loss_bd2 = criterion_bd2(mag_logits, mags)
+            loss = loss_mags + loss_bd2
+
+            # backward
+            graph.zero_grad()
+            optimizer.zero_grad()
+            loss.backward()
+            # clip grad
+            nn.utils.clip_grad_value_(graph.parameters(), 1)
+            optimizer.step()
+
+            # log
+            loss_str0.add(loss_mags.cpu().data.mean())
+            loss_str1.add(loss_bd2.cpu().data.mean())
+            bar.set_description("loss_mags: {}, loss_bd2: {}".format(loss_str0(), loss_str1()))
+
+            # plot
+            if global_step % 25 == 0:
+                gs = 0
+                plot_spectrum(mag_pred[0].cpu().data, "pred", gs, dir=logdir)
+                plot_spectrum(mags[0].cpu().data, "true", gs, dir=logdir)
+                plot_spectrum(mels[0].cpu().data, "input", gs, dir=logdir)
+
+                if global_step % 10000 == 0:
+                    save(graph,
+                         {"mags": criterion_mags, "bd2": criterion_bd2},
+                         optimizer,
+                         global_step,
+                         os.path.join(logdir, "pkg/save_{}k.pkg").format(global_step // 1000))
+
             global_step += 1

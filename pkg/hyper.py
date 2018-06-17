@@ -24,6 +24,7 @@ class Hyper:
     dim_f = 80  # the dim of audio feature
     dim_e = 128
     dim_d = 256  # the hidden layer of Text2Mel
+    dim_c = 512  # the hidder layer of SuperRes
     # dropout
     dropout = 0.3
     # train

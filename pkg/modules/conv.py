@@ -34,3 +34,15 @@ class HighwayConv1d(MaskedConv1d):
         H1, H2 = torch.chunk(L, 2, 1)  # chunk at the feature dim
         H1 = self.sigmoid_(H1)
         return H1 * H2 + (1.0 - H1) * inputs
+
+
+class Deconv1d(nn.ConvTranspose1d):
+    def __init__(self, in_channels, out_channels, kernel_size,
+                 dilation=1, padding="same", groups=1, bias=True):
+        if padding == "same":
+            padding = max(0, (kernel_size - 2) // 2)
+        super(Deconv1d, self).__init__(in_channels, out_channels, kernel_size,
+                                       stride=2, padding=padding, groups=groups,
+                                       bias=bias, dilation=dilation)
+    def forward(self, inputs):
+        return super(Deconv1d, self).forward(inputs)

@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import numpy as np
-from pkg.modules import MaskedConv1d, HighwayConv1d, CharEmbed
+from pkg.modules import MaskedConv1d, HighwayConv1d, Deconv1d, CharEmbed
 from pkg.modules import SequentialMaker
 from pkg.hyper import Hyper
 
@@ -165,3 +165,74 @@ class Text2Mel(nn.Module):
         self.attention = a
         self.mels = self.sigmoid_(mel_logits)
         return mel_logits, self.mels
+
+
+class SuperRes(nn.Module):
+    def __init__(self):
+        super(SuperRes, self).__init__()
+        seq = SequentialMaker()
+        seq.add_module("conv_0", MaskedConv1d(Hyper.dim_f, Hyper.dim_c, 1, padding="same"))
+        seq.add_module("drop_0", nn.Dropout(Hyper.dropout))
+        i = 1
+        for _ in range(1):
+            for j in range(2):
+                seq.add_module("highway-conv_{}".format(i),
+                               HighwayConv1d(Hyper.dim_c,
+                                             kernel_size=3,
+                                             dilation=3 ** j,
+                                             padding="same"))
+                seq.add_module("drop_{}".format(i),
+                               nn.Dropout(Hyper.dropout))
+                i += 1
+        for _ in range(2):
+            seq.add_module("deconv_{}".format(i),
+                           Deconv1d(Hyper.dim_c, Hyper.dim_c, 2, padding="same"))
+            seq.add_module("drop_{}".format(i),
+                           nn.Dropout(Hyper.dropout))
+            i += 1
+            for j in range(2):
+                seq.add_module("highway-conv_{}".format(i),
+                               HighwayConv1d(Hyper.dim_c,
+                                             kernel_size=3,
+                                             dilation=3 ** j,
+                                             padding="same"))
+                seq.add_module("drop_{}".format(i),
+                               nn.Dropout(Hyper.dropout))
+                i += 1
+        seq.add_module("conv_{}".format(i), MaskedConv1d(Hyper.dim_c, Hyper.dim_c * 2, 1, padding="same"))
+        seq.add_module("drop_{}".format(i), nn.Dropout(Hyper.dropout))
+        i += 1
+        for _ in range(2):
+            seq.add_module("highway-conv_{}".format(i),
+                           HighwayConv1d(Hyper.dim_c * 2,
+                                         kernel_size=3,
+                                         dilation=1,
+                                         padding="same"))
+            seq.add_module("drop_{}".format(i),
+                           nn.Dropout(Hyper.dropout))
+            i += 1
+        F = Hyper.audio_nfft // 2 + 1
+        seq.add_module("conv_{}".format(i), MaskedConv1d(Hyper.dim_c * 2, F, 1, padding="same"))
+        seq.add_module("drop_{}".format(i), nn.Dropout(Hyper.dropout))
+        i += 1
+        for _ in range(2):
+            seq.add_module("conv_{}".format(i), MaskedConv1d(F, F, 1, padding="same"))
+            seq.add_module("relu_{}".format(i), nn.ReLU())
+            seq.add_module("drop_{}".format(i), nn.Dropout(Hyper.dropout))
+            i += 1
+        seq.add_module("conv_{}".format(i), MaskedConv1d(F, F, 1, padding="same"))
+        self.seq_ = seq()
+        self.sigmoid_ = nn.Sigmoid()
+
+    def forward(self, inputs):
+        logits = self.seq_(inputs)
+        self.mag = self.sigmoid_(logits)
+        return logits, self.mag
+
+    def print_shape(self, input_shape):
+        print("super-resolution {")
+        SequentialMaker.print_shape(
+            self.seq_,
+            torch.FloatTensor(np.zeros(input_shape)),
+            intent_size=2)
+        print("}")
