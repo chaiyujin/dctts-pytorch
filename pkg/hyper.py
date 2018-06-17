@@ -31,7 +31,10 @@ class Hyper:
     num_batches = 1000000
     device = "cuda:0"
     logdir = "/home/chaiyujin/Documents/Speech/dctts-pytorch/logdir"
-    guide_g = 0.2
+    guide_g = 0.2  # bigger g, bigger guide area
+    guide_decay = 0.9999
+    guide_lowbound = 1
+
     # adam
     adam_alpha = 2e-4
     adam_betas = (0.5, 0.9)

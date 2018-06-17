@@ -1,11 +1,12 @@
 import os
 import numpy as np
-from pkg.utils import get_spectrum, spectrogram2wav, plot_spectrum, PrettyBar, find_files, guide_attention
+from pkg.utils import get_spectrum, spectrogram2wav, plot_attention, PrettyBar, guide_attention
 from pkg.hyper import Hyper
+from pkg.data import load_data
 import scipy.io.wavfile as wavfile
 
 
-def process_file(path):
+def process_file(path, text_len):
     fname, ext = os.path.splitext(os.path.basename(path))
     if ext != ".wav":
         raise Exception("[preprocess]: only support wav file")
@@ -31,18 +32,30 @@ def process_file(path):
     np.save(os.path.join(mag_path, fname + ".npy"), mag.astype(np.float32))
 
     # # attention guide
-    # guide_attention([])
+    guide_path = os.path.join(Hyper.feat_dir, "guides")
+    mask_path = os.path.join(Hyper.feat_dir, "masks")
+    if not os.path.exists(guide_path):
+        os.makedirs(guide_path)
+    if not os.path.exists(mask_path):
+        os.makedirs(mask_path)
+    guide, mask = guide_attention([text_len], [mel.shape[-1]],
+                                  Hyper.data_max_text_length,
+                                  Hyper.data_max_mel_length)
+    guide = guide[0]
+    mask = mask[0]
+    np.save(os.path.join(guide_path, fname + ".npy"), guide.astype(np.float32))
+    np.save(os.path.join(mask_path, fname + ".npy"), mask.astype(np.float32))
 
 
 def preprocess():
     print("pre-processing...")
-    flist = find_files(Hyper.data_dir, "wav")
-    bar = PrettyBar(len(flist))
+    names, lengths, texts = load_data()
+    bar = PrettyBar(len(names))
     for i in bar:
-        fpath = flist[i]
-        fname = os.path.basename(fpath)
+        fname = names[i]
+        fpath = os.path.join(Hyper.data_dir, "wavs/" + fname + ".wav")
         bar.set_description(fname)
-        process_file(os.path.join(Hyper.data_dir, fpath))
+        process_file(fpath, lengths[i])
 
 
 if __name__ == "__main__":

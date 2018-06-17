@@ -2,6 +2,8 @@ from __future__ import division
 import time
 import math
 import os, copy
+import re
+import unicodedata
 import numpy as np
 import librosa
 from scipy import signal
@@ -155,10 +157,12 @@ def find_files(path, target_ext=None):
     return result_list
 
 
-def guide_attention(text_lengths, mel_lengths):
+def guide_attention(text_lengths, mel_lengths, r=None, c=None):
     b = len(text_lengths)
-    r = np.max(text_lengths)
-    c = np.max(mel_lengths)
+    if r is None:
+        r = np.max(text_lengths)
+    if c is None:
+        c = np.max(mel_lengths)
     guide = np.ones((b, r, c), dtype=np.float32)
     mask = np.zeros((b, r, c), dtype=np.float32)
     for i in range(b):
@@ -168,9 +172,26 @@ def guide_attention(text_lengths, mel_lengths):
         T = float(mel_lengths[i])
         for n in range(r):
             for t in range(c):
-                W[n][t] = 1.0 - np.exp(-(float(n) / N - float(t) / T) ** 2 / (2.0 * (Hyper.guide_g ** 2)))
-                M[n][t] = 1.0
+                if n < N and t < T:
+                    W[n][t] = 1.0 - np.exp(-(float(n) / N - float(t) / T) ** 2 / (2.0 * (Hyper.guide_g ** 2)))
+                    M[n][t] = 1.0
     return guide, mask
+
+
+def text_normalize(text):
+    text = ''.join(char for char in unicodedata.normalize('NFD', text)
+                   if unicodedata.category(char) != 'Mn')  # Strip accents
+
+    text = text.lower()
+    text = re.sub("[\"\-()[\]“”]", " ", text)
+    text = re.sub("[,;:!]", ".", text)
+    text = re.sub("[’]", "'", text)
+    text = re.sub("[^{}]".format(Hyper.vocab), " ", text)
+    text = re.sub("[ ]+", " ", text)
+    text = text.strip()
+    if text[-1] >= 'a' and text[-1] <= 'z':
+        text += '.'
+    return text
 
 
 class PrettyBar:

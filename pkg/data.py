@@ -1,25 +1,8 @@
 import os
-import re
 import codecs
-import unicodedata
 import numpy as np
 from pkg.hyper import Hyper
-
-
-def text_normalize(text):
-    text = ''.join(char for char in unicodedata.normalize('NFD', text)
-                   if unicodedata.category(char) != 'Mn')  # Strip accents
-
-    text = text.lower()
-    text = re.sub("[\"\-()[\]“”]", " ", text)
-    text = re.sub("[,;:!]", ".", text)
-    text = re.sub("[’]", "'", text)
-    text = re.sub("[^{}]".format(Hyper.vocab), " ", text)
-    text = re.sub("[ ]+", " ", text)
-    text = text.strip()
-    if text[-1] >= 'a' and text[-1] <= 'z':
-        text += '.'
-    return text
+from pkg.utils import text_normalize
 
 
 def load_vocab():
@@ -95,24 +78,30 @@ class BatchMaker(object):
         self.idx_ += self.bs_
         if self.idx_ >= self.total_:
             self.reshuffle_ = True
+        names = self.names_[indices]
         # texts
         text_lengths = list(self.lengs_[indices])
         maxlen_texts = np.max([d for d in text_lengths])
         texts = np.asarray(list(map(lambda x: x[:maxlen_texts], self.texts_[indices])))
         # feature
-        mels = list(map(lambda x: np.load(os.path.join(Hyper.feat_dir, "mels/" + x + ".npy")), self.names_[indices]))
-        mags = list(map(lambda x: np.load(os.path.join(Hyper.feat_dir, "mags/" + x + ".npy")), self.names_[indices]))
+        mels = list(map(lambda x: np.load(os.path.join(Hyper.feat_dir, "mels/" + x + ".npy")), names))
+        mags = list(map(lambda x: np.load(os.path.join(Hyper.feat_dir, "mags/" + x + ".npy")), names))
         mel_lengths = [d.shape[1] for d in mels]
         mag_lengths = [d.shape[1] for d in mags]
         maxlen_mels = np.max(mel_lengths)
         maxlen_mags = np.max(mag_lengths)
         mels = np.asarray(list(map(lambda x: np.pad(x, [[0, 0], [0, maxlen_mels - x.shape[1]]], mode="constant"), mels)))
         mags = np.asarray(list(map(lambda x: np.pad(x, [[0, 0], [0, maxlen_mags - x.shape[1]]], mode="constant"), mags)))
+        # attention guide and mask
+        guides = np.asarray(list(map(lambda x: np.load(os.path.join(Hyper.feat_dir, "guides/" + x + ".npy"))[:maxlen_texts, :maxlen_mels], names)))
+        masks = np.asarray(list(map(lambda x: np.load(os.path.join(Hyper.feat_dir, "masks/" + x + ".npy"))[:maxlen_texts, :maxlen_mels], names)))
         return {
-            "names": self.names_[indices],
+            "names": names,
             "texts": texts, "text_lengths": text_lengths,
             "mels": mels, "mel_lengths": mel_lengths,
-            "mags": mags, "mag_lengths": mag_lengths
+            "mags": mags, "mag_lengths": mag_lengths,
+            "atten_guides": guides,
+            "atten_masks": masks
         }
 
 
@@ -121,9 +110,7 @@ if __name__ == "__main__":
     batch_maker = BatchMaker(16, names, lengths, texts)
     batch = batch_maker.next_batch()
     print(batch["texts"].shape, batch["texts"].dtype)
-    print(batch["text_lengths"])
     print(batch["mels"].shape, batch["mels"].dtype)
-    print(batch["mel_lengths"])
     print(batch["mags"].shape, batch["mags"].dtype)
-    print(batch["mag_lengths"])
-    print(batch["texts"][0])
+    print(batch["atten_guides"].shape)
+    print(batch["atten_masks"].shape)
