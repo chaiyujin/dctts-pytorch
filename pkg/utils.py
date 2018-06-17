@@ -175,6 +175,8 @@ def guide_attention(text_lengths, mel_lengths, r=None, c=None):
                 if n < N and t < T:
                     W[n][t] = 1.0 - np.exp(-(float(n) / N - float(t) / T) ** 2 / (2.0 * (Hyper.guide_g ** 2)))
                     M[n][t] = 1.0
+                elif t >= T and n < N:
+                    W[n][t] = 1.0 - np.exp(-((float(n - N - 1) / N)** 2 / (2.0 * (Hyper.guide_g ** 2))))
     return guide, mask
 
 

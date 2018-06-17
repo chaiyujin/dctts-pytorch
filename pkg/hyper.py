@@ -25,14 +25,15 @@ class Hyper:
     dim_e = 128
     dim_d = 256  # the hidden layer of Text2Mel
     # dropout
-    dropout = 0.05
+    dropout = 0.3
     # train
     batch_size = 16
     num_batches = 1000000
     device = "cuda:0"
     logdir = "/home/chaiyujin/Documents/Speech/dctts-pytorch/logdir"
     guide_g = 0.2  # bigger g, bigger guide area
-    guide_decay = 0.9999
+    guide_weight = 100.0
+    guide_decay = 0.99999
     guide_lowbound = 1
 
     # adam

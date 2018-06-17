@@ -45,6 +45,8 @@ def process_file(path, text_len):
     mask = mask[0]
     np.save(os.path.join(guide_path, fname + ".npy"), guide.astype(np.float32))
     np.save(os.path.join(mask_path, fname + ".npy"), mask.astype(np.float32))
+    # plot_attention(guide, "guide", 0, True)
+    # plot_attention(mask, "mask", 0, True)
 
 
 def preprocess():

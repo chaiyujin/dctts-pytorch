@@ -69,7 +69,7 @@ def train_text2mel():
         os.makedirs(logdir)
     if not os.path.exists(os.path.join(logdir, "pkg")):
         os.mkdir(os.path.join(logdir, "pkg"))
-    dynamic_guide = 10000.0
+    dynamic_guide = float(Hyper.guide_weight)
     global_step = 0
     for loop_cnt in range(int(Hyper.num_batches / batch_maker.num_batches() + 0.5)):
         print("loop", loop_cnt)
@@ -109,14 +109,18 @@ def train_text2mel():
             # guide attention
             atten_guide = torch.FloatTensor(batch["atten_guides"]).to(Hyper.device)
             atten_mask = torch.FloatTensor(batch["atten_masks"]).to(Hyper.device)
+            atten_mask = torch.ones_like(graph.attention)
             loss_atten = criterion_atten(
                 atten_guide * graph.attention * atten_mask,
                 torch.zeros_like(graph.attention)) * dynamic_guide
             loss = loss_mels + loss_bd1 + loss_atten
 
             # backward
+            graph.zero_grad()
             optimizer.zero_grad()
             loss.backward()
+            # clip grad
+            nn.utils.clip_grad_value_(graph.parameters(), 1)
             optimizer.step()
             # log
             loss_str0.add(loss_mels.cpu().data.mean())
@@ -130,15 +134,16 @@ def train_text2mel():
             bar.set_description("loss_mels: {}, loss_bd1: {}, loss_atten: {}, scale: {}".format(loss_str0(), loss_str1(), loss_str2(), "%4f" % dynamic_guide))
 
             # plot
-            if global_step % 50 == 0:
+            if global_step % 25 == 0:
                 gs = 0
                 plot_spectrum(mels[0].cpu().data, "mel_true", gs, dir=logdir)
+                plot_spectrum(shift_mels[0].cpu().data, "mel_input", gs, dir=logdir)
                 plot_spectrum(pred_mels[0].cpu().data, "mel_pred", gs, dir=logdir)
                 plot_spectrum(graph.query[0].cpu().data, "query", gs, dir=logdir)
-                plot_attention(graph.attention[0].cpu().data, "atten", gs, dir=logdir)
-                plot_attention(atten_guide[0].cpu().data, "atten_guide", gs, dir=logdir)
+                plot_attention(graph.attention[0].cpu().data, "atten", gs, True, dir=logdir)
+                plot_attention((atten_guide)[0].cpu().data, "atten_guide", gs, True, dir=logdir)
 
-                if global_step % 1000 == 0:
+                if global_step % 10000 == 0:
                     save(graph,
                          {"mels": criterion_mels, "bd1": criterion_bd1, "atten": criterion_atten},
                          optimizer,
