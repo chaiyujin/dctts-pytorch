@@ -155,6 +155,24 @@ def find_files(path, target_ext=None):
     return result_list
 
 
+def guide_attention(text_lengths, mel_lengths):
+    b = len(text_lengths)
+    r = np.max(text_lengths)
+    c = np.max(mel_lengths)
+    guide = np.ones((b, r, c), dtype=np.float32)
+    mask = np.zeros((b, r, c), dtype=np.float32)
+    for i in range(b):
+        W = guide[i]
+        M = mask[i]
+        N = float(text_lengths[i])
+        T = float(mel_lengths[i])
+        for n in range(r):
+            for t in range(c):
+                W[n][t] = 1.0 - np.exp(-(float(n) / N - float(t) / T) ** 2 / (2.0 * (Hyper.guide_g ** 2)))
+                M[n][t] = 1.0
+    return guide, mask
+
+
 class PrettyBar:
     grid_list = ['\u2596', '\u2598', '\u259D', '\u2597']
 

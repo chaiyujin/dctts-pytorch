@@ -18,6 +18,7 @@ class Hyper:
     data_dir = "/media/chaiyujin/FE6C78966C784B81/Linux/Dataset/LJSpeech-1.1"
     feat_dir = "/home/chaiyujin/Documents/Speech/dctts-pytorch/features/"
     data_max_text_length = 200
+    data_max_mel_length = 240
 
     # net
     dim_f = 80  # the dim of audio feature
@@ -30,6 +31,7 @@ class Hyper:
     num_batches = 1000000
     device = "cuda:0"
     logdir = "/home/chaiyujin/Documents/Speech/dctts-pytorch/logdir"
+    guide_g = 0.2
     # adam
     adam_alpha = 2e-4
     adam_betas = (0.5, 0.9)

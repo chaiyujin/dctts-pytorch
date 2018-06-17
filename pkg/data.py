@@ -80,6 +80,9 @@ class BatchMaker(object):
     def num_batches(self):
         return (self.total_ + self.bs_ - 1) // self.bs_
 
+    def batch_size(self):
+        return self.bs_
+
     def next_batch(self):
         # check if need re-shuffle
         if self.indexes_ is None or self.reshuffle_ == True:
@@ -92,17 +95,24 @@ class BatchMaker(object):
         self.idx_ += self.bs_
         if self.idx_ >= self.total_:
             self.reshuffle_ = True
+        # texts
+        text_lengths = list(self.lengs_[indices])
+        maxlen_texts = np.max([d for d in text_lengths])
+        texts = np.asarray(list(map(lambda x: x[:maxlen_texts], self.texts_[indices])))
+        # feature
         mels = list(map(lambda x: np.load(os.path.join(Hyper.feat_dir, "mels/" + x + ".npy")), self.names_[indices]))
         mags = list(map(lambda x: np.load(os.path.join(Hyper.feat_dir, "mags/" + x + ".npy")), self.names_[indices]))
-        maxlen_mels = np.max([d.shape[1] for d in mels])
-        maxlen_mags = np.max([d.shape[1] for d in mags])
+        mel_lengths = [d.shape[1] for d in mels]
+        mag_lengths = [d.shape[1] for d in mags]
+        maxlen_mels = np.max(mel_lengths)
+        maxlen_mags = np.max(mag_lengths)
         mels = np.asarray(list(map(lambda x: np.pad(x, [[0, 0], [0, maxlen_mels - x.shape[1]]], mode="constant"), mels)))
         mags = np.asarray(list(map(lambda x: np.pad(x, [[0, 0], [0, maxlen_mags - x.shape[1]]], mode="constant"), mags)))
         return {
             "names": self.names_[indices],
-            "texts": self.texts_[indices],
-            "mels": mels,
-            "mags": mags
+            "texts": texts, "text_lengths": text_lengths,
+            "mels": mels, "mel_lengths": mel_lengths,
+            "mags": mags, "mag_lengths": mag_lengths
         }
 
 
@@ -110,5 +120,10 @@ if __name__ == "__main__":
     names, lengths, texts = load_data()
     batch_maker = BatchMaker(16, names, lengths, texts)
     batch = batch_maker.next_batch()
+    print(batch["texts"].shape, batch["texts"].dtype)
+    print(batch["text_lengths"])
     print(batch["mels"].shape, batch["mels"].dtype)
+    print(batch["mel_lengths"])
     print(batch["mags"].shape, batch["mags"].dtype)
+    print(batch["mag_lengths"])
+    print(batch["texts"][0])

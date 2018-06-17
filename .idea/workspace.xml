@@ -14,7 +14,7 @@
       <file leaf-file-name="main.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
+            <state relative-caret-position="150">
               <caret line="13" selection-start-line="13" selection-end-line="13" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
@@ -23,52 +23,43 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="train.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="train.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/../pkg/train.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="447">
-              <caret line="77" column="59" selection-start-line="77" selection-start-column="59" selection-end-line="77" selection-end-column="59" />
+            <state relative-caret-position="345">
+              <caret line="113" column="47" lean-forward="true" selection-start-line="113" selection-start-column="47" selection-end-line="113" selection-end-column="47" />
               <folding>
-                <element signature="e#0#12#0" expanded="true" />
+                <element signature="e#0#31#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="atten_0.png" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../logdir/atten_0.png">
-          <provider selected="true" editor-type-id="images" />
+      <file leaf-file-name="hyper.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../pkg/hyper.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="300">
+              <caret line="20" column="23" selection-start-line="20" selection-start-column="4" selection-end-line="20" selection-end-column="23" />
+            </state>
+          </provider>
         </entry>
       </file>
-      <file leaf-file-name="mel_pred_0.png" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../logdir/mel_pred_0.png">
-          <provider selected="true" editor-type-id="images" />
-        </entry>
-      </file>
-      <file leaf-file-name="mel_true_0.png" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../logdir/mel_true_0.png">
-          <provider selected="true" editor-type-id="images" />
-        </entry>
-      </file>
-      <file leaf-file-name="origin_0.png" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../logdir/origin_0.png">
-          <provider selected="true" editor-type-id="images" />
-        </entry>
-      </file>
-      <file leaf-file-name="query_0.png" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../logdir/query_0.png">
-          <provider selected="true" editor-type-id="images" />
-        </entry>
-      </file>
-      <file leaf-file-name="shift_0.png" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/../logdir/shift_0.png">
-          <provider selected="true" editor-type-id="images" />
+      <file leaf-file-name="preprocess.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../pkg/preprocess.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="465">
+              <caret line="31" lean-forward="true" selection-start-line="31" selection-end-line="31" />
+              <folding>
+                <element signature="e#0#9#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
         </entry>
       </file>
       <file leaf-file-name="networks.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../pkg/networks.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="492">
+            <state relative-caret-position="477">
               <caret line="163" column="8" selection-start-line="163" selection-start-column="8" selection-end-line="163" selection-end-column="18" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
@@ -77,11 +68,24 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="data.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../pkg/data.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1740">
+              <caret line="116" lean-forward="true" selection-start-line="116" selection-end-line="116" />
+              <folding>
+                <element signature="e#0#9#0" expanded="true" />
+                <marker date="1529206039972" expanded="true" signature="424:514" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="utils.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../pkg/utils.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="477">
-              <caret line="130" column="49" selection-start-line="130" selection-start-column="49" selection-end-line="130" selection-end-column="49" />
+            <state relative-caret-position="132">
+              <caret line="157" column="19" selection-start-line="157" selection-start-column="4" selection-end-line="157" selection-end-column="19" />
               <folding>
                 <element signature="e#0#31#0" expanded="true" />
               </folding>
@@ -109,6 +113,9 @@
       <find>mel</find>
       <find>text2mel</find>
       <find>chunk</find>
+      <find>atten_guide</find>
+      <find>val</find>
+      <find>text_lengths</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -131,12 +138,12 @@
         <option value="$PROJECT_DIR$/pkg/hyper.py" />
         <option value="$PROJECT_DIR$/pkg/data.py" />
         <option value="$PROJECT_DIR$/pkg/preprocess.py" />
-        <option value="$PROJECT_DIR$/../pkg/preprocess.py" />
         <option value="$PROJECT_DIR$/../main.py" />
+        <option value="$PROJECT_DIR$/../pkg/networks.py" />
         <option value="$PROJECT_DIR$/../pkg/data.py" />
         <option value="$PROJECT_DIR$/../pkg/hyper.py" />
         <option value="$PROJECT_DIR$/../pkg/utils.py" />
-        <option value="$PROJECT_DIR$/../pkg/networks.py" />
+        <option value="$PROJECT_DIR$/../pkg/preprocess.py" />
         <option value="$PROJECT_DIR$/../pkg/train.py" />
       </list>
     </option>
@@ -153,7 +160,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -164,17 +170,13 @@
             <path>
               <item name="." type="b2602c69:ProjectViewProjectNode" />
               <item name="dctts-pytorch" type="462c0819:PsiDirectoryNode" />
-              <item name="logdir" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="." type="b2602c69:ProjectViewProjectNode" />
-              <item name="dctts-pytorch" type="462c0819:PsiDirectoryNode" />
               <item name="pkg" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -192,7 +194,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.main">
+  <component name="RunManager" selected="Python.data (1)">
     <configuration name="data (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="yuki_tts" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -292,8 +294,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.main" />
         <item itemvalue="Python.data (1)" />
+        <item itemvalue="Python.main" />
         <item itemvalue="Python.data" />
         <item itemvalue="Python.preprocess" />
         <item itemvalue="Python.utils" />
@@ -328,13 +330,13 @@
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.22827847" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.32910052" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Python Console" order="7" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.32910052" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" order="7" />
-      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -371,9 +373,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
           <caret line="6" column="45" selection-start-line="6" selection-start-column="45" selection-end-line="6" selection-end-column="45" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -403,7 +402,7 @@
           <caret line="107" column="55" selection-start-line="107" selection-start-column="55" selection-end-line="107" selection-end-column="55" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
-            <marker date="1529158048865" expanded="true" signature="424:514" ph="..." />
+            <marker date="1529206039972" expanded="true" signature="424:514" ph="..." />
           </folding>
         </state>
       </provider>
@@ -443,9 +442,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
           <caret line="6" column="45" selection-start-line="6" selection-start-column="45" selection-end-line="6" selection-end-column="45" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -496,7 +492,7 @@
           <caret line="107" column="55" lean-forward="true" selection-start-line="107" selection-start-column="55" selection-end-line="107" selection-end-column="55" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
-            <marker date="1529158048865" expanded="true" signature="424:514" ph="..." />
+            <marker date="1529206039972" expanded="true" signature="424:514" ph="..." />
           </folding>
         </state>
       </provider>
@@ -512,9 +508,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
           <caret line="15" column="19" selection-start-line="15" selection-start-column="19" selection-end-line="15" selection-end-column="19" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -542,9 +535,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
           <caret line="15" column="19" selection-start-line="15" selection-start-column="19" selection-end-line="15" selection-end-column="19" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -612,86 +602,22 @@
     <entry file="file://$PROJECT_DIR$/../logdir/spec-high_0.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/../pkg/data.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="417">
-          <caret line="79" column="19" selection-start-line="79" selection-start-column="8" selection-end-line="79" selection-end-column="19" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-            <marker date="1529158048865" expanded="true" signature="424:514" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../pkg/preprocess.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="657">
-          <caret line="45" column="14" selection-start-line="45" selection-start-column="14" selection-end-line="45" selection-end-column="14" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../pkg/modules/conv.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="480">
           <caret line="33" column="28" selection-start-line="33" selection-start-column="23" selection-end-line="33" selection-end-column="28" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../pkg/hyper.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="525">
-          <caret line="35" column="19" selection-start-line="35" selection-start-column="19" selection-end-line="35" selection-end-column="19" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
+        <state relative-caret-position="150">
           <caret line="13" selection-start-line="13" selection-end-line="13" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../pkg/utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="477">
-          <caret line="130" column="49" selection-start-line="130" selection-start-column="49" selection-end-line="130" selection-end-column="49" />
-          <folding>
-            <element signature="e#0#31#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../pkg/networks.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="492">
-          <caret line="163" column="8" selection-start-line="163" selection-start-column="8" selection-end-line="163" selection-end-column="18" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../pkg/train.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="447">
-          <caret line="77" column="59" selection-start-line="77" selection-start-column="59" selection-end-line="77" selection-end-column="59" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../logdir/mel_true_0.png">
-      <provider selected="true" editor-type-id="images" />
     </entry>
     <entry file="file://$PROJECT_DIR$/../logdir/mel_pred_0.png">
       <provider selected="true" editor-type-id="images" />
@@ -707,6 +633,67 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/../logdir/shift_0.png">
       <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../logdir/mel_true_0.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../pkg/hyper.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="20" column="23" selection-start-line="20" selection-start-column="4" selection-end-line="20" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../pkg/utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="132">
+          <caret line="157" column="19" selection-start-line="157" selection-start-column="4" selection-end-line="157" selection-end-column="19" />
+          <folding>
+            <element signature="e#0#31#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../pkg/preprocess.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="465">
+          <caret line="31" lean-forward="true" selection-start-line="31" selection-end-line="31" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../pkg/data.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1740">
+          <caret line="116" lean-forward="true" selection-start-line="116" selection-end-line="116" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+            <marker date="1529206039972" expanded="true" signature="424:514" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../pkg/networks.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="477">
+          <caret line="163" column="8" selection-start-line="163" selection-start-column="8" selection-end-line="163" selection-end-column="18" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../pkg/train.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="113" column="47" lean-forward="true" selection-start-line="113" selection-start-column="47" selection-end-line="113" selection-end-column="47" />
+          <folding>
+            <element signature="e#0#31#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
     </entry>
   </component>
 </project>

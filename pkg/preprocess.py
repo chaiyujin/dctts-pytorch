@@ -1,6 +1,6 @@
 import os
 import numpy as np
-from pkg.utils import get_spectrum, spectrogram2wav, plot_spectrum, PrettyBar, find_files
+from pkg.utils import get_spectrum, spectrogram2wav, plot_spectrum, PrettyBar, find_files, guide_attention
 from pkg.hyper import Hyper
 import scipy.io.wavfile as wavfile
 
@@ -29,6 +29,9 @@ def process_file(path):
         os.makedirs(mag_path)
     np.save(os.path.join(mel_path, fname + ".npy"), mel.astype(np.float32))
     np.save(os.path.join(mag_path, fname + ".npy"), mag.astype(np.float32))
+
+    # # attention guide
+    # guide_attention([])
 
 
 def preprocess():
