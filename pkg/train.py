@@ -84,16 +84,19 @@ def train_text2mel(load_trained):
     if not os.path.exists(os.path.join(logdir, "pkg")):
         os.mkdir(os.path.join(logdir, "pkg"))
 
-    graph = Text2Mel().to(Hyper.device)
+    # device
+    device = Hyper.device_text2mel
+
+    graph = Text2Mel().to(device)
     # set the training flag
     graph.train()
     # load data and get batch maker
     names, lengths, texts = load_data()
     batch_maker = BatchMaker(Hyper.batch_size, names, lengths, texts)
 
-    criterion_mels = nn.L1Loss().to(Hyper.device)
-    criterion_bd1 = nn.BCEWithLogitsLoss().to(Hyper.device)
-    criterion_atten = nn.L1Loss().to(Hyper.device)
+    criterion_mels = nn.L1Loss().to(device)
+    criterion_bd1 = nn.BCEWithLogitsLoss().to(device)
+    criterion_atten = nn.L1Loss().to(device)
     optimizer = torch.optim.Adam(
         graph.parameters(),
         lr=Hyper.adam_alpha,
@@ -125,15 +128,15 @@ def train_text2mel(load_trained):
         for bi in bar:
             batch = batch_maker.next_batch()
             # make batch
-            texts = torch.LongTensor(batch["texts"]).to(Hyper.device)
+            texts = torch.LongTensor(batch["texts"]).to(device)
             # shift mel
             shift_mels = torch.FloatTensor(
                 np.concatenate(
                     (np.zeros((batch["mels"].shape[0], batch["mels"].shape[1], 1)),
                      batch["mels"][:, :, :-1]),
-                    axis=2)).to(Hyper.device)
+                    axis=2)).to(device)
             # ground truth
-            mels = torch.FloatTensor(batch["mels"]).to(Hyper.device)
+            mels = torch.FloatTensor(batch["mels"]).to(device)
 
             # forward
             pred_logits, pred_mels = graph(texts, shift_mels)
@@ -151,8 +154,8 @@ def train_text2mel(load_trained):
                 loss_mels = criterion_mels(pred_mels, mels)
                 loss_bd1 = criterion_bd1(pred_logits, mels)
             # guide attention
-            atten_guide = torch.FloatTensor(batch["atten_guides"]).to(Hyper.device)
-            atten_mask = torch.FloatTensor(batch["atten_masks"]).to(Hyper.device)
+            atten_guide = torch.FloatTensor(batch["atten_guides"]).to(device)
+            atten_mask = torch.FloatTensor(batch["atten_masks"]).to(device)
             atten_mask = torch.ones_like(graph.attention)
             loss_atten = criterion_atten(
                 atten_guide * graph.attention * atten_mask,
@@ -213,26 +216,27 @@ def train_superres(load_trained):
         os.makedirs(logdir)
     if not os.path.exists(os.path.join(logdir, "pkg")):
         os.mkdir(os.path.join(logdir, "pkg"))
-
-    device = Hyper.device
+    # device
+    device = Hyper.device_superres
+    # graph
     graph = SuperRes().to(device)
     graph.train()
-
+    # load data
     names, lengths, texts = load_data()
     batch_maker = BatchMaker(Hyper.batch_size, names, lengths, texts)
-
+    # loss
     criterion_mags = nn.L1Loss().to(device)
     criterion_bd2 = nn.BCEWithLogitsLoss().to(device)
     lossplot_mags = LogHelper("mag_l1", logdir)
     lossplot_bd2 = LogHelper("mag_BCE", logdir)
-
+    # optim
     optimizer = torch.optim.Adam(
         graph.parameters(),
         lr=Hyper.adam_alpha,
         betas=Hyper.adam_betas,
         eps=Hyper.adam_eps
     )
-
+    # load 
     global_step = 0
     if load_trained > 0:
         print("load model trained for {}k batches".format(load_trained))

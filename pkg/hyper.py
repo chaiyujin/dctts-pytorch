@@ -1,3 +1,5 @@
+import os
+
 
 class Hyper:
     # audio
@@ -13,10 +15,14 @@ class Hyper:
     audio_niter = 50  # Number of inversion iterations
     temporal_rate = 4
 
+    # dir
+    root_dir = "/home/chaiyujin/Documents/Speech/dctts-pytorch/"
+    feat_dir = os.path.join(root_dir, "features")
+    logdir = os.path.join(root_dir, "logdir")
+    data_dir = "/media/chaiyujin/FE6C78966C784B81/Linux/Dataset/LJSpeech-1.1"
+    
     # data
     vocab = "PE abcdefghijklmnopqrstuvwxyz'.?"  # P: padding, E: end of string
-    data_dir = "/media/chaiyujin/FE6C78966C784B81/Linux/Dataset/LJSpeech-1.1"
-    feat_dir = "/home/chaiyujin/Documents/Speech/dctts-pytorch/features/"
     data_max_text_length = 200
     data_max_mel_length = 240
 
@@ -30,8 +36,8 @@ class Hyper:
     # train
     batch_size = 32
     num_batches = 1000000
-    device = "cuda:0"
-    logdir = "/home/chaiyujin/Documents/Speech/dctts-pytorch/logdir"
+    device_text2mel = "cuda:0"
+    device_superres = "cuda:0"
     guide_g = 0.2  # bigger g, bigger guide area
     guide_weight = 100.0
     guide_decay = 0.99999
