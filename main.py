@@ -32,6 +32,7 @@ def main():
     parser = argparse.ArgumentParser(description="optional actions")
     parser.add_argument("--action", type=lambda x: str_to_enum(Action, x), choices=list(Action))
     parser.add_argument("--module", type=lambda x: str_to_enum(Module, x), choices=list(Module))
+    parser.add_argument("--load", type=int, default=0)
     args = parser.parse_args()
     if args.action is None:
         parser.print_help()
@@ -42,7 +43,7 @@ def main():
         if args.module is None:
             parser.print_help()
         else:
-            train(args.module)
+            train(args.module, args.load)
     elif args.action == Action.synthesis:
         print(args.action)
         pass

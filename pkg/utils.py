@@ -134,6 +134,14 @@ def plot_attention(attention, name, gs, colorbar=False, dir=Hyper.logdir):
     plt.close(fig)
 
 
+def plot_loss(loss, idx, name, path):
+    fig, ax = plt.subplots()
+    plt.title(name)
+    plt.plot(idx, loss)
+    plt.savefig(path, format="png")
+    plt.close(fig)
+
+
 def find_files(path, target_ext=None):
     if target_ext is not None:
         if not isinstance(target_ext, list):

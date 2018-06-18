@@ -26,9 +26,9 @@ class Hyper:
     dim_d = 256  # the hidden layer of Text2Mel
     dim_c = 512  # the hidder layer of SuperRes
     # dropout
-    dropout = 0.3
+    dropout = 0.05
     # train
-    batch_size = 16
+    batch_size = 32
     num_batches = 1000000
     device = "cuda:0"
     logdir = "/home/chaiyujin/Documents/Speech/dctts-pytorch/logdir"

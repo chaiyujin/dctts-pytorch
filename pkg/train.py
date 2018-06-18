@@ -7,7 +7,27 @@ import numpy as np
 from pkg.networks import Text2Mel, SuperRes
 from pkg.data import BatchMaker, load_data
 from pkg.hyper import Hyper
-from pkg.utils import PrettyBar, plot_spectrum, plot_attention
+from pkg.utils import PrettyBar, plot_spectrum, plot_attention, plot_loss
+
+
+class LogHelper(object):
+    def __init__(self, loss_name, logdir):
+        self.val_ = []
+        self.idx_ = []
+        self.name_ = loss_name
+        self.dir_ = os.path.join(logdir, "loss")
+        if not os.path.exists(self.dir_):
+            os.makedirs(self.dir_)
+
+    def add(self, loss, step):
+        self.val_.append(float(loss))
+        self.idx_.append(int(step))
+
+    def plot(self):
+        if len(self.val_) == 0 or len(self.idx_) == 0:
+            return
+        path = os.path.join(self.dir_, "loss_{}-start_at_{}.png".format(self.name_, self.idx_[0]))
+        plot_loss(self.val_, self.idx_, self.name_, path)
 
 
 class MovingAverage(object):
@@ -26,13 +46,13 @@ class MovingAverage(object):
         return float(self.sum_ / self.num_)
 
 
-def train(module):
+def train(module, load_trained):
     module = str(module)
     print("train:", "Text to Mel" if module == "Text2Mel" else "Mel Spectrum Super Resolution")
     if module == "Text2Mel":
-        train_text2mel()
+        train_text2mel(load_trained)
     else:
-        train_superres()
+        train_superres(load_trained)
 
 
 def save(graph, criterion_dict, optimizer, global_step, save_path):
@@ -46,7 +66,24 @@ def save(graph, criterion_dict, optimizer, global_step, save_path):
     torch.save(state, save_path)
 
 
-def train_text2mel():
+def load(graph, criterion_dict, optimizer, save_path):
+    state = torch.load(save_path)
+    global_step = state["global_step"]
+    graph.load_state_dict(state["graph"])
+    optimizer.load_state_dict(state["optim"])
+    for k in criterion_dict:
+        criterion_dict[k].load_state_dict(state[k])
+    return global_step
+
+
+def train_text2mel(load_trained):
+    # create log dir
+    logdir = os.path.join(Hyper.logdir, "text2mel")
+    if not os.path.exists(logdir):
+        os.makedirs(logdir)
+    if not os.path.exists(os.path.join(logdir, "pkg")):
+        os.mkdir(os.path.join(logdir, "pkg"))
+
     graph = Text2Mel().to(Hyper.device)
     # set the training flag
     graph.train()
@@ -64,13 +101,20 @@ def train_text2mel():
         eps=Hyper.adam_eps
     )
 
-    logdir = os.path.join(Hyper.logdir, "text2mel")
-    if not os.path.exists(logdir):
-        os.makedirs(logdir)
-    if not os.path.exists(os.path.join(logdir, "pkg")):
-        os.mkdir(os.path.join(logdir, "pkg"))
+    lossplot_mels = LogHelper("mel_l1", logdir)
+    lossplot_bd1 = LogHelper("mel_BCE", logdir)
+    lossplot_atten = LogHelper("atten", logdir)
+
     dynamic_guide = float(Hyper.guide_weight)
     global_step = 0
+
+    # check if load
+    if load_trained > 0:
+        print("load model trained for {}k batches".format(load_trained))
+        global_step = load(graph, {"mels": criterion_mels, "bd1": criterion_bd1, "atten": criterion_atten}, optimizer,
+             os.path.join(logdir, "pkg/save_{}k.pkg".format(load_trained)))
+        dynamic_guide *= Hyper.guide_decay ** (load_trained * 1000)
+
     for loop_cnt in range(int(Hyper.num_batches / batch_maker.num_batches() + 0.5)):
         print("loop", loop_cnt)
         bar = PrettyBar(batch_maker.num_batches())
@@ -126,15 +170,19 @@ def train_text2mel():
             loss_str0.add(loss_mels.cpu().data.mean())
             loss_str1.add(loss_bd1.cpu().data.mean())
             loss_str2.add(loss_atten.cpu().data.mean())
+            lossplot_mels.add(loss_str0(), global_step)
+            lossplot_bd1.add(loss_str1(), global_step)
+            lossplot_atten.add(loss_str2(), global_step)
+
             # adjust dynamic_guide
             # dynamic_guide = float((loss_mels + loss_bd1).cpu().data.mean() / loss_atten.cpu().data.mean())
             dynamic_guide *= Hyper.guide_decay
             if dynamic_guide < Hyper.guide_lowbound:
                 dynamic_guide = Hyper.guide_lowbound
-            bar.set_description("loss_mels: {}, loss_bd1: {}, loss_atten: {}, scale: {}".format(loss_str0(), loss_str1(), loss_str2(), "%4f" % dynamic_guide))
+            bar.set_description("gs: {}, mels: {}, bd1: {}, atten: {}, scale: {}".format(global_step, loss_str0(), loss_str1(), loss_str2(), "%4f" % dynamic_guide))
 
             # plot
-            if global_step % 25 == 0:
+            if global_step % 100 == 0:
                 gs = 0
                 plot_spectrum(mels[0].cpu().data, "mel_true", gs, dir=logdir)
                 plot_spectrum(shift_mels[0].cpu().data, "mel_input", gs, dir=logdir)
@@ -142,6 +190,10 @@ def train_text2mel():
                 plot_spectrum(graph.query[0].cpu().data, "query", gs, dir=logdir)
                 plot_attention(graph.attention[0].cpu().data, "atten", gs, True, dir=logdir)
                 plot_attention((atten_guide)[0].cpu().data, "atten_guide", gs, True, dir=logdir)
+                if global_step % 500 == 0:
+                    lossplot_mels.plot()
+                    lossplot_bd1.plot()
+                    lossplot_atten.plot()
 
                 if global_step % 10000 == 0:
                     save(graph,
@@ -154,8 +206,15 @@ def train_text2mel():
             global_step += 1
 
 
-def train_superres():
-    device = "cpu"
+def train_superres(load_trained):
+    # logdir
+    logdir = os.path.join(Hyper.logdir, "superres")
+    if not os.path.exists(logdir):
+        os.makedirs(logdir)
+    if not os.path.exists(os.path.join(logdir, "pkg")):
+        os.mkdir(os.path.join(logdir, "pkg"))
+
+    device = Hyper.device
     graph = SuperRes().to(device)
     graph.train()
 
@@ -164,6 +223,8 @@ def train_superres():
 
     criterion_mags = nn.L1Loss().to(device)
     criterion_bd2 = nn.BCEWithLogitsLoss().to(device)
+    lossplot_mags = LogHelper("mag_l1", logdir)
+    lossplot_bd2 = LogHelper("mag_BCE", logdir)
 
     optimizer = torch.optim.Adam(
         graph.parameters(),
@@ -172,13 +233,11 @@ def train_superres():
         eps=Hyper.adam_eps
     )
 
-
-    logdir = os.path.join(Hyper.logdir, "superres")
-    if not os.path.exists(logdir):
-        os.makedirs(logdir)
-    if not os.path.exists(os.path.join(logdir, "pkg")):
-        os.mkdir(os.path.join(logdir, "pkg"))
     global_step = 0
+    if load_trained > 0:
+        print("load model trained for {}k batches".format(load_trained))
+        global_step = load(graph, {"mags": criterion_mags, "bd2": criterion_bd2}, optimizer,
+                           os.path.join(logdir, "pkg/save_{}k.pkg".format(load_trained)))
 
     for loop_cnt in range(int(Hyper.num_batches / batch_maker.num_batches() + 0.5)):
         print("loop", loop_cnt)
@@ -213,14 +272,19 @@ def train_superres():
             # log
             loss_str0.add(loss_mags.cpu().data.mean())
             loss_str1.add(loss_bd2.cpu().data.mean())
-            bar.set_description("loss_mags: {}, loss_bd2: {}".format(loss_str0(), loss_str1()))
+            lossplot_mags.add(loss_str0(), global_step)
+            lossplot_bd2.add(loss_str1(), global_step)
+            bar.set_description("gs: {}, mags: {}, bd2: {}".format(global_step, loss_str0(), loss_str1()))
 
             # plot
-            if global_step % 25 == 0:
+            if global_step % 100 == 0:
                 gs = 0
                 plot_spectrum(mag_pred[0].cpu().data, "pred", gs, dir=logdir)
                 plot_spectrum(mags[0].cpu().data, "true", gs, dir=logdir)
                 plot_spectrum(mels[0].cpu().data, "input", gs, dir=logdir)
+                if global_step % 100 == 0:
+                    lossplot_mags.plot()
+                    lossplot_bd2.plot()
 
                 if global_step % 10000 == 0:
                     save(graph,
