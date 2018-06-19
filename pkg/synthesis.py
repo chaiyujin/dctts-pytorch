@@ -19,7 +19,7 @@ def synthesis(text_list, plot=True):
     graph0.eval()
     graph1.eval()
     # make dir
-    syn_dir = os.path.join(Hyper.logdir, "synthesis")
+    syn_dir = os.path.join(Hyper.root_dir, "synthesis")
     if not os.path.exists(syn_dir):
         os.makedirs(syn_dir)
 

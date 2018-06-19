@@ -4,6 +4,7 @@ import os
 import torch
 import torch.nn as nn
 import numpy as np
+from shutil import copyfile
 from pkg.networks import Text2Mel, SuperRes
 from pkg.data import BatchMaker, load_data
 from pkg.hyper import Hyper
@@ -55,7 +56,7 @@ def train(module, load_trained):
         train_superres(load_trained)
 
 
-def save(save_path, graph, criterion_dict, optimizer, global_step):
+def save(save_path, graph, criterion_dict, optimizer, global_step, is_best=False):
     state = {
         "global_step": global_step,
         "graph": graph.state_dict(),
@@ -64,6 +65,10 @@ def save(save_path, graph, criterion_dict, optimizer, global_step):
     for k in criterion_dict:
         state[k] = criterion_dict[k].state_dict()
     torch.save(state, save_path)
+    if is_best:
+        best_path = os.path.join(os.path.dirname(save_path),
+                                 "trained.pkg")
+        copyfile(save_path, best_path)
 
 
 def load(save_path, graph, criterion_dict=None, optimizer=None, device=None):
@@ -205,7 +210,8 @@ def train_text2mel(load_trained):
                          graph,
                          {"mels": criterion_mels, "bd1": criterion_bd1, "atten": criterion_atten},
                          optimizer,
-                         global_step)
+                         global_step,
+                         True)
 
             # increase global step
             global_step += 1
@@ -297,6 +303,7 @@ def train_superres(load_trained):
                          graph,
                          {"mags": criterion_mags, "bd2": criterion_bd2},
                          optimizer,
-                         global_step)
+                         global_step,
+                         True)
 
             global_step += 1

@@ -2,6 +2,7 @@ import argparse
 from enum import Enum
 from pkg.preprocess import preprocess
 from pkg.train import train
+from pkg.synthesis import synthesis
 
 
 class Module(Enum):
@@ -45,8 +46,14 @@ def main():
         else:
             train(args.module, args.load)
     elif args.action == Action.synthesis:
-        print(args.action)
-        pass
+        texts = []
+        with open("sentences.txt", "r") as f:
+            for line in f:
+                line = line.strip()
+                if len(line):
+                    texts.append(line)
+        if len(texts):
+            synthesis(texts)
     else:
         raise ValueError()
 
