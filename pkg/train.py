@@ -55,7 +55,7 @@ def train(module, load_trained):
         train_superres(load_trained)
 
 
-def save(graph, criterion_dict, optimizer, global_step, save_path):
+def save(save_path, graph, criterion_dict, optimizer, global_step):
     state = {
         "global_step": global_step,
         "graph": graph.state_dict(),
@@ -66,13 +66,15 @@ def save(graph, criterion_dict, optimizer, global_step, save_path):
     torch.save(state, save_path)
 
 
-def load(graph, criterion_dict, optimizer, save_path):
-    state = torch.load(save_path)
+def load(save_path, graph, criterion_dict=None, optimizer=None, device=None):
+    state = torch.load(save_path, map_location=device)
     global_step = state["global_step"]
     graph.load_state_dict(state["graph"])
-    optimizer.load_state_dict(state["optim"])
-    for k in criterion_dict:
-        criterion_dict[k].load_state_dict(state[k])
+    if optimizer:
+        optimizer.load_state_dict(state["optim"])
+    if criterion_dict:
+        for k in criterion_dict:
+            criterion_dict[k].load_state_dict(state[k])
     return global_step
 
 
@@ -114,8 +116,8 @@ def train_text2mel(load_trained):
     # check if load
     if load_trained > 0:
         print("load model trained for {}k batches".format(load_trained))
-        global_step = load(graph, {"mels": criterion_mels, "bd1": criterion_bd1, "atten": criterion_atten}, optimizer,
-             os.path.join(logdir, "pkg/save_{}k.pkg".format(load_trained)))
+        global_step = load(os.path.join(logdir, "pkg/save_{}k.pkg".format(load_trained)),
+                           graph, {"mels": criterion_mels, "bd1": criterion_bd1, "atten": criterion_atten}, optimizer)
         dynamic_guide *= Hyper.guide_decay ** (load_trained * 1000)
 
     for loop_cnt in range(int(Hyper.num_batches / batch_maker.num_batches() + 0.5)):
@@ -199,11 +201,11 @@ def train_text2mel(load_trained):
                     lossplot_atten.plot()
 
                 if global_step % 10000 == 0:
-                    save(graph,
+                    save(os.path.join(logdir, "pkg/save_{}k.pkg").format(global_step // 1000),
+                         graph,
                          {"mels": criterion_mels, "bd1": criterion_bd1, "atten": criterion_atten},
                          optimizer,
-                         global_step,
-                         os.path.join(logdir, "pkg/save_{}k.pkg").format(global_step // 1000))
+                         global_step)
 
             # increase global step
             global_step += 1
@@ -240,8 +242,8 @@ def train_superres(load_trained):
     global_step = 0
     if load_trained > 0:
         print("load model trained for {}k batches".format(load_trained))
-        global_step = load(graph, {"mags": criterion_mags, "bd2": criterion_bd2}, optimizer,
-                           os.path.join(logdir, "pkg/save_{}k.pkg".format(load_trained)))
+        global_step = load(os.path.join(logdir, "pkg/save_{}k.pkg".format(load_trained)),
+                           graph, {"mags": criterion_mags, "bd2": criterion_bd2}, optimizer)
 
     for loop_cnt in range(int(Hyper.num_batches / batch_maker.num_batches() + 0.5)):
         print("loop", loop_cnt)
@@ -291,10 +293,10 @@ def train_superres(load_trained):
                     lossplot_bd2.plot()
 
                 if global_step % 10000 == 0:
-                    save(graph,
+                    save(os.path.join(logdir, "pkg/save_{}k.pkg").format(global_step // 1000),
+                         graph,
                          {"mags": criterion_mags, "bd2": criterion_bd2},
                          optimizer,
-                         global_step,
-                         os.path.join(logdir, "pkg/save_{}k.pkg").format(global_step // 1000))
+                         global_step)
 
             global_step += 1

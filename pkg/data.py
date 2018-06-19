@@ -33,6 +33,15 @@ def load_data():
     return names, lengths, texts
 
 
+def process_text(text, padding=False):
+    char2idx, _ = load_vocab()
+    text = text_normalize(text) + 'E'  # append the end of string mark
+    text = [char2idx[char] for char in text]
+    if padding:
+        text = np.concatenate((text, np.zeros(Hyper.data_max_text_length - len(text))))
+    return text
+
+
 class BatchMaker(object):
     def __init__(self, batch_size, names, lengths, texts):
         '''

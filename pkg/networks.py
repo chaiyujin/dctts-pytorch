@@ -154,10 +154,21 @@ class Text2Mel(nn.Module):
         self.audio_dec_ = AudioDecoder()
         self.sigmoid_ = nn.Sigmoid()
 
-    def forward(self, texts, shift_mels):
+    def forward(self, texts, shift_mels, prev_time=None, prev_atten=None):
         k, v = self.texts_enc_(texts)
         q = self.audio_enc_(shift_mels)
         a = F.softmax(torch.bmm(k.transpose(1, 2), q) / np.sqrt(Hyper.dim_d), 1)
+        if not (self.training or prev_time is None or prev_atten is None):
+            # forcibly incremental attention, at inference phase
+            a[:, :, :prev_time+1].data.copy_(prev_atten[:, :, :prev_time+1].data)
+            for i in range(int(a.size(0))):  # loop batch
+                nt0 = torch.argmax(a[i, :, prev_time])
+                nt1 = torch.argmax(a[i, :, prev_time + 1])
+                # print(prev_time, nt0.cpu().data, nt1.cpu().data)
+                if nt1 < nt0 - 1 or nt1 > nt0 + 3:
+                    nt0 = nt0 if nt0 + 1 < a.size(1) else nt0 - 1
+                    a[i, :, prev_time + 1].zero_()
+                    a[i, nt0 + 1, prev_time + 1] = 1
         r = torch.cat((torch.bmm(v, a), q), 1)
         mel_logits = self.audio_dec_(r)
 
