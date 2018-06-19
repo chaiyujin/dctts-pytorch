@@ -60,4 +60,5 @@ if __name__ == "__main__":
         ["in being comparatively modern.",
          "The birch canoe slid on the smooth planks",
          "I can't believe you any more.",
-         "This is bullshit."])
+         "This is bullshit.",
+         "Give me 10101, because it's .123 times better than h110..."])

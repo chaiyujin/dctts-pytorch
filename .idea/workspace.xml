@@ -2,11 +2,28 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f2314b4e-031d-4933-8088-3601bd17649c" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/pkg/synthesis.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/data.py" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/data.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/networks.py" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/networks.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/train.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/synthesis.py" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/synthesis.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/readme.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sentences.txt" beforeDir="false" afterPath="$PROJECT_DIR$/sentences.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/synthesis/atten_0.png" beforeDir="false" afterPath="$PROJECT_DIR$/synthesis/atten_0.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/synthesis/atten_1.png" beforeDir="false" afterPath="$PROJECT_DIR$/synthesis/atten_1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/synthesis/atten_2.png" beforeDir="false" afterPath="$PROJECT_DIR$/synthesis/atten_2.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/synthesis/atten_3.png" beforeDir="false" afterPath="$PROJECT_DIR$/synthesis/atten_3.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/synthesis/mags_0.png" beforeDir="false" afterPath="$PROJECT_DIR$/synthesis/mags_0.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/synthesis/mags_1.png" beforeDir="false" afterPath="$PROJECT_DIR$/synthesis/mags_1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/synthesis/mags_2.png" beforeDir="false" afterPath="$PROJECT_DIR$/synthesis/mags_2.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/synthesis/mags_3.png" beforeDir="false" afterPath="$PROJECT_DIR$/synthesis/mags_3.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/synthesis/mels_0.png" beforeDir="false" afterPath="$PROJECT_DIR$/synthesis/mels_0.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/synthesis/mels_1.png" beforeDir="false" afterPath="$PROJECT_DIR$/synthesis/mels_1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/synthesis/mels_2.png" beforeDir="false" afterPath="$PROJECT_DIR$/synthesis/mels_2.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/synthesis/mels_3.png" beforeDir="false" afterPath="$PROJECT_DIR$/synthesis/mels_3.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/synthesis/syn_0.wav" beforeDir="false" afterPath="$PROJECT_DIR$/synthesis/syn_0.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/synthesis/syn_1.wav" beforeDir="false" afterPath="$PROJECT_DIR$/synthesis/syn_1.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/synthesis/syn_2.wav" beforeDir="false" afterPath="$PROJECT_DIR$/synthesis/syn_2.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/synthesis/syn_3.wav" beforeDir="false" afterPath="$PROJECT_DIR$/synthesis/syn_3.wav" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -20,8 +37,8 @@
       <file leaf-file-name="main.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="342">
-              <caret line="45" column="31" selection-start-line="45" selection-start-column="31" selection-end-line="45" selection-end-column="40" />
+            <state relative-caret-position="645">
+              <caret line="46" column="31" selection-start-line="46" selection-start-column="31" selection-end-line="46" selection-end-column="31" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -29,11 +46,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="synthesis.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="synthesis.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pkg/synthesis.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="945">
-              <caret line="63" lean-forward="true" selection-start-line="63" selection-end-line="63" />
+            <state relative-caret-position="927">
+              <caret line="63" column="10" selection-start-line="63" selection-start-column="10" selection-end-line="63" selection-end-column="68" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -41,10 +58,19 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="sentences.txt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sentences.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="60">
+              <caret line="4" column="20" selection-start-line="4" selection-start-column="20" selection-end-line="4" selection-end-column="20" />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="networks.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pkg/networks.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-690">
+            <state relative-caret-position="15">
               <caret line="167" column="16" selection-start-line="167" selection-start-column="16" selection-end-line="167" selection-end-column="16" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
@@ -56,8 +82,8 @@
       <file leaf-file-name="data.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pkg/data.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="450">
-              <caret line="42" selection-start-line="42" selection-end-line="42" />
+            <state relative-caret-position="-930">
+              <caret line="43" column="88" selection-start-line="43" selection-start-column="88" selection-end-line="43" selection-end-column="88" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -69,10 +95,7 @@
         <entry file="file://$PROJECT_DIR$/pkg/train.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="184">
-              <caret line="68" column="8" selection-start-line="68" selection-start-column="4" selection-end-line="68" selection-end-column="8" />
-              <folding>
-                <element signature="e#0#31#0" expanded="true" />
-              </folding>
+              <caret line="73" column="8" selection-start-line="73" selection-start-column="8" selection-end-line="73" selection-end-column="8" />
             </state>
           </provider>
         </entry>
@@ -86,11 +109,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="utils.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="utils.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/pkg/utils.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="184">
-              <caret line="48" column="19" selection-start-line="48" selection-start-column="4" selection-end-line="48" selection-end-column="19" />
+            <state relative-caret-position="207">
+              <caret line="242" column="23" lean-forward="true" selection-start-line="242" selection-start-column="23" selection-end-line="242" selection-end-column="23" />
               <folding>
                 <element signature="e#0#31#0" expanded="true" />
               </folding>
@@ -158,13 +181,14 @@
         <option value="$PROJECT_DIR$/../pkg/modules/__init__.py" />
         <option value="$PROJECT_DIR$/../pkg/networks.py" />
         <option value="$PROJECT_DIR$/../pkg/train.py" />
-        <option value="$PROJECT_DIR$/pkg/utils.py" />
         <option value="$PROJECT_DIR$/pkg/hyper.py" />
         <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/pkg/train.py" />
-        <option value="$PROJECT_DIR$/pkg/data.py" />
         <option value="$PROJECT_DIR$/pkg/networks.py" />
+        <option value="$PROJECT_DIR$/pkg/data.py" />
+        <option value="$PROJECT_DIR$/pkg/utils.py" />
         <option value="$PROJECT_DIR$/pkg/synthesis.py" />
+        <option value="$PROJECT_DIR$/sentences.txt" />
       </list>
     </option>
   </component>
@@ -214,7 +238,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.synthesis">
+  <component name="RunManager" selected="Python.data">
     <configuration name="data (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="yuki_tts" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -246,24 +270,6 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/pkg/data.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-    </configuration>
-    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="yuki_tts" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/.." />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../main.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -305,20 +311,38 @@
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
     </configuration>
+    <configuration name="utils" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="yuki_tts" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/pkg" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/pkg/utils.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
     <list>
       <item itemvalue="Python.data" />
       <item itemvalue="Python.data (1)" />
-      <item itemvalue="Python.main" />
       <item itemvalue="Python.preprocess (1)" />
       <item itemvalue="Python.synthesis" />
+      <item itemvalue="Python.utils" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.data" />
+        <item itemvalue="Python.utils" />
         <item itemvalue="Python.synthesis" />
         <item itemvalue="Python.preprocess (1)" />
         <item itemvalue="Python.data (1)" />
-        <item itemvalue="Python.main" />
-        <item itemvalue="Python.data" />
       </list>
     </recent_temporary>
   </component>
@@ -346,7 +370,7 @@
   <component name="ToolWindowManager">
     <frame x="1987" y="25" width="1853" height="1055" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.22827847" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.114948735" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32910052" />
@@ -374,11 +398,10 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="1" />
+      <option name="time" value="3" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../pkg/networks.py" />
     <entry file="file://$PROJECT_DIR$/../pkg/preprocess.py" />
     <entry file="file://$PROJECT_DIR$/../pkg/hyper.py" />
     <entry file="file://$PROJECT_DIR$/../.gitignore" />
@@ -421,23 +444,6 @@
     <entry file="file://$PROJECT_DIR$/../pkg/networks.py" />
     <entry file="file://$PROJECT_DIR$/../pkg/train.py" />
     <entry file="file://$PROJECT_DIR$/pkg/synthesis" />
-    <entry file="file://$PROJECT_DIR$/pkg/hyper.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="540">
-          <caret line="36" column="19" selection-start-line="36" selection-start-column="19" selection-end-line="36" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pkg/train.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="184">
-          <caret line="68" column="8" selection-start-line="68" selection-start-column="4" selection-end-line="68" selection-end-column="8" />
-          <folding>
-            <element signature="e#0#31#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///media/chaiyujin/FE6C78966C784B81/Linux/Dataset/LJSpeech-1.1/metadata.csv">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
@@ -445,19 +451,36 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="645">
+          <caret line="46" column="31" selection-start-line="46" selection-start-column="31" selection-end-line="46" selection-end-column="31" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/pkg/data.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="42" selection-start-line="42" selection-end-line="42" />
+        <state relative-caret-position="-930">
+          <caret line="43" column="88" selection-start-line="43" selection-start-column="88" selection-end-line="43" selection-end-column="88" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/sentences.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="20" selection-start-line="4" selection-start-column="20" selection-end-line="4" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/pkg/networks.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-690">
+        <state relative-caret-position="15">
           <caret line="167" column="16" selection-start-line="167" selection-start-column="16" selection-end-line="167" selection-end-column="16" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
@@ -465,32 +488,36 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main.py">
+    <entry file="file://$PROJECT_DIR$/pkg/train.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="45" column="31" selection-start-line="45" selection-start-column="31" selection-end-line="45" selection-end-column="40" />
+        <state relative-caret-position="184">
+          <caret line="73" column="8" selection-start-line="73" selection-start-column="8" selection-end-line="73" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pkg/hyper.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="540">
+          <caret line="36" column="19" selection-start-line="36" selection-start-column="19" selection-end-line="36" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pkg/synthesis.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="927">
+          <caret line="63" column="10" selection-start-line="63" selection-start-column="10" selection-end-line="63" selection-end-column="68" />
           <folding>
-            <element signature="e#0#15#0" expanded="true" />
+            <element signature="e#0#9#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/pkg/utils.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="184">
-          <caret line="48" column="19" selection-start-line="48" selection-start-column="4" selection-end-line="48" selection-end-column="19" />
+        <state relative-caret-position="207">
+          <caret line="242" column="23" lean-forward="true" selection-start-line="242" selection-start-column="23" selection-end-line="242" selection-end-column="23" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pkg/synthesis.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="945">
-          <caret line="63" lean-forward="true" selection-start-line="63" selection-end-line="63" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
           </folding>
         </state>
       </provider>

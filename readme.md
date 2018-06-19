@@ -34,5 +34,9 @@ python3 main.py --action synthesis
 # Pre-trained model
 (coming soon)
 
+# Dependancy
+- scipy, librosa, num2words
+- pytorch >= 0.4.0
+
 # Relative
 TensorFlow implementation: [Kyubyong/dc_tts](https://github.com/Kyubyong/dc_tts)

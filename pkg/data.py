@@ -22,6 +22,9 @@ def load_data():
             line = line.strip()
             fname, _, text = line.split('|')
             text = text_normalize(text) + 'E'  # append the end of string mark
+            for char in text:
+                if char <= '9' and char >= '0':
+                    raise ValueError("[data]: after text normalize, there should be no digits.")
             text = [char2idx[char] for char in text]
 
             names.append(fname)
@@ -36,6 +39,9 @@ def load_data():
 def process_text(text, padding=False):
     char2idx, _ = load_vocab()
     text = text_normalize(text) + 'E'  # append the end of string mark
+    for char in text:
+        if char <= '9' and char >= '0':
+            raise ValueError("[data]: after text normalize, there should be no digits.")
     text = [char2idx[char] for char in text]
     if padding:
         text = np.concatenate((text, np.zeros(Hyper.data_max_text_length - len(text))))
@@ -115,7 +121,16 @@ class BatchMaker(object):
 
 
 if __name__ == "__main__":
+    _, idx2char = load_vocab()
     names, lengths, texts = load_data()
+    for i in range(len(names)):
+        if names[i] == "LJ001-0122":
+            idxes = texts[i]
+            chars = ""
+            for idx in idxes:
+                chars += idx2char[idx]
+            print(chars)
+            break
     batch_maker = BatchMaker(16, names, lengths, texts)
     batch = batch_maker.next_batch()
     print(batch["texts"].shape, batch["texts"].dtype)

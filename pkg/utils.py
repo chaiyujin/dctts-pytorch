@@ -10,6 +10,7 @@ from scipy import signal
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+from num2words import num2words
 from pkg.hyper import Hyper
 
 
@@ -188,15 +189,65 @@ def guide_attention(text_lengths, mel_lengths, r=None, c=None):
     return guide, mask
 
 
+def text_num2words(text):
+    def tonumber(s):
+        try:
+            return int(s)
+        except ValueError:
+            try:
+                return float(s)
+            except ValueError:
+                raise ValueError("error in detecting numebrs")
+
+    def is_number(s):
+        if not re.search('\d', s):
+            return False
+        if s[0] >= 'a' and s[0] <= 'z' or s[0] >= 'A' and s[0] <= 'Z':
+            return False
+        if s[-1] >= 'a' and s[-1] <= 'z' or s[-1] >= 'A' and s[-1] <= 'Z':
+            return False
+
+        for i in range(1, len(s) - 1):
+            c = s[i]
+            if not (c >= '0' and c <= '9' or c == '.'):
+                return False
+        return True
+
+    def strip_number(s):
+        if not is_number(s):
+            if re.search('\d', s):
+                return ''.join([' ' + num2words(int(c)) + ' ' if c >= '0' and c <= '9' else c for c in s])
+            else:
+                return s
+        i = 0
+        if s[i] == '.':
+            s = '0' + s
+        while s[i] < '0' or s[i] > '9':
+            i += 1
+        j = len(s) - 1
+        while s[j] < '0' or s[j] > '9':
+            j -= 1
+        start = s[:i]
+        end = '' if j == len(s) - 1 else s[j + 1:]
+        word = tonumber(s[i: j+1])
+        return start + ' ' + num2words(word).replace(',', ' ') + ' ' + end
+
+    text = " ".join([strip_number(s) for s in text.split()])
+    return text
+
+
 def text_normalize(text):
     text = ''.join(char for char in unicodedata.normalize('NFD', text)
                    if unicodedata.category(char) != 'Mn')  # Strip accents
 
     text = text.lower()
+    text = text_num2words(text)
     text = re.sub("[\"\-()[\]“”]", " ", text)
     text = re.sub("[,;:!]", ".", text)
     text = re.sub("[’]", "'", text)
     text = re.sub("[^{}]".format(Hyper.vocab), " ", text)
+    text = re.sub("[.]+", ".", text)
+    text = re.sub("[']+", "'", text)
     text = re.sub("[ ]+", " ", text)
     text = text.strip()
     if text[-1] >= 'a' and text[-1] <= 'z':
@@ -298,7 +349,6 @@ class PrettyBar:
 
 
 if __name__ == '__main__':
-    bar = PrettyBar(100)
-    print(bar.total)
-    for i in bar:
-        time.sleep(0.2)
+    text = "Give me 10101, because it's .123 times better than h110..."
+    print(text_num2words(text))
+    print(text_normalize(text))
