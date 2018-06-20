@@ -1,3 +1,5 @@
 logdir/
 features/
 *.pyc
+*.7z
+*.zip

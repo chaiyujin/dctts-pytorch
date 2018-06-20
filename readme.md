@@ -32,7 +32,8 @@ python3 main.py --action synthesis
 ```
     
 # Pre-trained model
-(coming soon)
+The samples in directory `synthesis` is sampled with 410k batches trained Text2Mel and 190k batches trained SuperRes.
+You can download the pre-trained model from [my dropbox](https://www.dropbox.com/s/d7r3ol3n1lwvtns/logdir.7z?dl=0)
 
 # Dependancy
 - scipy, librosa, num2words
@@ -40,3 +41,4 @@ python3 main.py --action synthesis
 
 # Relative
 TensorFlow implementation: [Kyubyong/dc_tts](https://github.com/Kyubyong/dc_tts)
+Please [email](chaiyujin@gmail.com) me or open an issue, if you have any question or suggestion.
