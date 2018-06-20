@@ -1,5 +1,7 @@
 # DC-TTS
-The pytorch implementation of papar [Efficiently Trainable Text-to-Speech System Based on Deep Convolutional Networks with Guided Attention](https://arxiv.org/abs/1710.08969). Thanks for [Kyubyong/dc_tts](https://github.com/Kyubyong/dc_tts), which helps me to overcome some difficulties.
+The pytorch implementation of papar [Efficiently Trainable Text-to-Speech System Based on Deep Convolutional Networks with Guided Attention](https://arxiv.org/abs/1710.08969).
+
+Thanks for [Kyubyong/dc_tts](https://github.com/Kyubyong/dc_tts), which helped me a lot to overcome some difficulties.
 
 # Dataset
 - [The LJ Speech Dataset](https://keithito.com/LJ-Speech-Dataset/). A public domain speech dataset consisting of 13,100 short audio clips of a single female speaker.
@@ -33,7 +35,10 @@ python3 main.py --action synthesis
     
 # Pre-trained model
 The samples in directory `synthesis` is sampled with 410k batches trained Text2Mel and 190k batches trained SuperRes.
-You can download the pre-trained model from [my dropbox](https://www.dropbox.com/s/d7r3ol3n1lwvtns/logdir.7z?dl=0)
+
+The current result is not very satisfied, specificly, some vowels are skipped. Hope someone can find better hyper parameters and train better models. Please tell me if you were able to get a great model.
+
+You can download the current pre-trained model from [my dropbox](https://www.dropbox.com/s/d7r3ol3n1lwvtns/logdir.7z?dl=0).
 
 # Dependancy
 - scipy, librosa, num2words
@@ -41,4 +46,5 @@ You can download the pre-trained model from [my dropbox](https://www.dropbox.com
 
 # Relative
 TensorFlow implementation: [Kyubyong/dc_tts](https://github.com/Kyubyong/dc_tts)
+
 Please [email](chaiyujin@gmail.com) me or open an issue, if you have any question or suggestion.
