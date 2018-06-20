@@ -20,7 +20,7 @@ To train a model yourself with The LJ Speech Dataset:
     ```
     python3 main.py --action train --module Text2Mel
     ```
-4. Train SSRN network, also, it's possible to change to training device
+4. Train SSRN network, also, it's possible to change the training device
     ```
     python3 main.py --action train --module SuperRes
     ```
@@ -32,11 +32,14 @@ You can synthesis samples listed in `sentences.txt` with
 ```
 python3 main.py --action synthesis
 ```
-    
+
+- **Attention Matrix** for the sentence: *"Which came first... the chicken or the egg? Did the universe have a beginning... and if so, what happened before then? Where did the universe come from... and where is it going?"*
+![](synthesis/atten_5.png)
+
 # Pre-trained model
 The samples in directory `synthesis` is sampled with 410k batches trained Text2Mel and 190k batches trained SuperRes.
 
-The current result is not very satisfied, specificly, some vowels are skipped. Hope someone can find better hyper parameters and train better models. Please tell me if you were able to get a great model.
+The current result is not very satisfying, specificly, some vowels are skipped. Hope someone can find better hyper parameters and train better models. Please tell me if you were able to get a great model.
 
 You can download the current pre-trained model from [my dropbox](https://www.dropbox.com/s/d7r3ol3n1lwvtns/logdir.7z?dl=0).
 
